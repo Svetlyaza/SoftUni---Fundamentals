@@ -4,33 +4,34 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class FromLeftToRight {
-    public static void main(String[] args) {
+   public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int linesNum = Integer.parseInt(sc.nextLine());
-        int firstNumSum = 0;
-        int secondNumSum = 0;
 
         for (int i =1; i <= linesNum; i++) {
             String input = sc.nextLine();
             String[] arr = input.split(" ");
+            long firstNum = Long.parseLong(arr[0]);
+            long secondNum = Long.parseLong(arr[1]);
+            long sumOfDigits = 0;
 
-            for (int j = 0; j < arr[0].length(); j++) {
-                char digitChar = arr[0].charAt(j);
-                int digit = Character.getNumericValue(digitChar);
-                firstNumSum += digit;
+            if (firstNum > secondNum) {
+                firstNum = Math.abs(firstNum);
+
+                while (firstNum > 0) {
+                    sumOfDigits += firstNum % 10;
+                    firstNum /= 10;
+                }
+            } else {
+                secondNum = Math.abs(secondNum);
+
+                while (secondNum > 0) {
+                    sumOfDigits += secondNum % 10;
+                    secondNum /= 10;
+                }
             }
-
-            for (int k = 0; k < arr[1].length(); k++) {
-                char digitChar = arr[1].charAt(k);
-                int digit = Character.getNumericValue(digitChar);
-                secondNumSum += digit;
-            }
-
-            System.out.println(Math.max(firstNumSum, secondNumSum));
-
-            firstNumSum = 0;
-            secondNumSum = 0;
+            System.out.println(sumOfDigits);
             Arrays.fill(arr, null);
         }
     }
