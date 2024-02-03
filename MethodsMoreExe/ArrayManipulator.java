@@ -1,11 +1,6 @@
-package MethodsMoreExe;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-
-public class ArrayManipulator {
+public class Beta {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -33,7 +28,7 @@ public class ArrayManipulator {
                 case "last":
                     int count = Integer.parseInt(command[1]);
                     String type = command[2];
-                    printFirstOrLast(array, count, type);
+                    printFirstOrLastEvenOrOdd(array, count, type, command[0]);
                     break;
                 case "end":
                     printArray(array);
@@ -47,21 +42,25 @@ public class ArrayManipulator {
             System.out.println("Invalid index");
             return array;
         }
-
-        List<Integer> firstSubarray = new ArrayList<>();
-        List<Integer> secondSubarray = new ArrayList<>();
-
+        
+        // Once you understand the power of Lists, life becomes easier
+        
+        List<Integer> firstSubArray = new ArrayList<>();
+        List<Integer> secondSubArray = new ArrayList<>();
+        
+        // You just put the data in two lists and then combine them...
+        // If you want to use arrays it takes like 2 more loops I think
         for (int i = 0; i <= index; i++) {
-            secondSubarray.add(array[i]);
+            secondSubArray.add(array[i]);
         }
 
         for (int i = index + 1; i < array.length; i++) {
-            firstSubarray.add(array[i]);
+            firstSubArray.add(array[i]);
         }
 
-        firstSubarray.addAll(secondSubarray);
+        firstSubArray.addAll(secondSubArray);
 
-        return firstSubarray.stream().mapToInt(Integer::intValue).toArray();
+        return firstSubArray.stream().mapToInt(Integer::intValue).toArray();
     }
 
     private static String findMaxIndex(int[] array, String type) {
@@ -78,7 +77,11 @@ public class ArrayManipulator {
                 }
             }
         }
-
+        
+        // I made the method String type so I could use ternary operator more freely 
+        // and needless to say you need to have your maxIndex starting with -1 for obvious reasons
+        // Familiar logic is used in the findMinIndex Method
+        
         return maxIndex == -1 ? "No matches" : String.valueOf(maxIndex);
     }
 
@@ -96,33 +99,51 @@ public class ArrayManipulator {
                 }
             }
         }
-
+        
         return minIndex == -1 ? "No matches" : String.valueOf(minIndex);
     }
 
-    private static void printFirstOrLast(int[] array, int count, String type) {
+    private static void printFirstOrLastEvenOrOdd(int[] array, int count, String type, String command) {
+        // A necessary check that shuts the method
         if (count < 0 || count > array.length) {
             System.out.println("Invalid count");
             return;
         }
 
+        // I used List since it's easier to put it in array. I like to avoid arrays when possible
         List<Integer> result = new ArrayList<>();
+        if (command.equals("first")) { // Loop for first evens or odds
+            for (int element : array) {
+                if ((type.equals("even") && element % 2 == 0) ||
+                        (type.equals("odd") && element % 2 != 0)) {
+                    result.add(element);
 
-        for (int i = 0; i < array.length; i++) {
-            if ((type.equals("even") && array[i] % 2 == 0) ||
-                    (type.equals("odd") && array[i] % 2 != 0)) {
-                result.add(array[i]);
-
-                if (result.size() == count) {
-                    break;
+                    if (result.size() == count) {
+                        break;
+                    }
                 }
             }
+        } else { // That's the last loop for the last even or odd
+            for (int element = array.length -1; element >= 0; element--) {
+                if ((type.equals("even") && array[element] % 2 == 0) ||
+                        (type.equals("odd") && array[element] % 2 != 0)) {
+                    result.add(array[element]);
+
+                    if (result.size() == count) {
+                        break;
+                    }
+                }
+            }
+            
+            // You gotta reverse the list again so it can print it the way judge wants... Motherf*****...
+            Collections.reverse(result);
         }
 
         System.out.println(Arrays.toString(result.toArray()));
     }
 
     private static void printArray(int[] array) {
+        // I noticed a lot of people don't use this... Dunno why
         System.out.println(Arrays.toString(array));
     }
 }
