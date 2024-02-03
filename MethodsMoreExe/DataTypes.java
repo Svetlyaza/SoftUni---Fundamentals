@@ -13,7 +13,7 @@ public class DataTypes {
                 int integerNumber = Integer.parseInt(sc.nextLine());
                 printModifiedData(integerNumber);
                 break;
-            case "double":
+            case "real":
                 double doubleNumber = Double.parseDouble(sc.nextLine());
                 printModifiedData(doubleNumber);
                 break;
