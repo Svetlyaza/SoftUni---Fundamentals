@@ -16,17 +16,7 @@ public class MultiplicationSign {
     public static void printSignOfProduct(int n1, int n2, int n3){
         int counter = 0;
 
-        if (n1 == 0) {
-            System.out.println("zero");
-            return;
-        }
-
-        if (n2 == 0) {
-            System.out.println("zero");
-            return;
-        }
-
-        if (n3 == 0) {
+        if (n1 == 0 || n2 == 0 || n3 == 0) {
             System.out.println("zero");
             return;
         }
